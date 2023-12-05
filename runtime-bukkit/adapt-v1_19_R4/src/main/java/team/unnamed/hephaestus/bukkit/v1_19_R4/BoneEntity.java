@@ -48,6 +48,7 @@ import team.unnamed.hephaestus.bukkit.BoneView;
 import team.unnamed.hephaestus.util.Quaternion;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 final class BoneEntity extends Display.ItemDisplay implements BoneView {
@@ -83,7 +84,7 @@ final class BoneEntity extends Display.ItemDisplay implements BoneView {
 
     void show(Consumer<Packet<?>> packetConsumer) {
         packetConsumer.accept(new ClientboundAddEntityPacket(this));
-        packetConsumer.accept(new ClientboundSetEntityDataPacket(super.getId(), super.getEntityData(), true));
+        packetConsumer.accept(new ClientboundSetEntityDataPacket(super.getId(), Objects.requireNonNull(super.getEntityData().getNonDefaultValues())));
         packetConsumer.accept(new ClientboundSetEquipmentPacket(super.getId(), List.of(new Pair<>(
                 EquipmentSlot.HEAD,
                 super.getItemBySlot(EquipmentSlot.HEAD)
