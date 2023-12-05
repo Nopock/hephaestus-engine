@@ -26,17 +26,21 @@ package team.unnamed.hephaestus.bukkit.v1_19_R4;
 import com.mojang.math.Transformation;
 import io.papermc.paper.adventure.PaperAdventure;
 import net.kyori.adventure.text.Component;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Display;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 import org.bukkit.Color;
+import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftItem;
 import org.bukkit.craftbukkit.v1_19_R3.entity.CraftItemDisplay;
 import org.bukkit.craftbukkit.v1_19_R3.inventory.CraftItemStack;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 import team.unnamed.creative.base.Vector3Float;
 import team.unnamed.hephaestus.Bone;
@@ -46,13 +50,35 @@ import team.unnamed.hephaestus.util.Quaternion;
 public class BoneEntity
     extends Display.ItemDisplay implements BoneView {
 
+    private static final net.minecraft.world.item.ItemStack BASE_ITEM = getItemBase();
+
     private final MinecraftModelEntity view;
     private final Bone bone;
 
-    BoneEntity(MinecraftModelEntity view, Bone bone, Level world) {
+    protected final float modelScale;
+
+    BoneEntity(MinecraftModelEntity view, Bone bone, Level world, float modelScale) {
         super(EntityType.ITEM_DISPLAY, world);
         this.view = view;
         this.bone = bone;
+        this.modelScale = modelScale;
+    }
+
+    protected void initialize(Vector3Float initialPosition, Quaternion initialRotation) {
+        super.setItemTransform(ItemDisplayContext.THIRD_PERSON_LEFT_HAND);
+        super.setInterpolationDuration(3);
+        super.setViewRange(1000);
+        super.setNoGravity(true);
+
+        ItemStack stack = BASE_ITEM.copy().asBukkitCopy();
+
+        stack.editMeta(itemMeta -> {
+            itemMeta.setCustomModelData(bone.customModelData());
+        });
+
+        super.setItemStack(net.minecraft.world.item.ItemStack.fromBukkitCopy(stack));
+
+        update(initialPosition, initialRotation, Vector3Float.ONE);
     }
 
     @Override
@@ -63,6 +89,9 @@ public class BoneEntity
     @Override
     public void update(Vector3Float position, Quaternion rotation, Vector3Float scale) {
         super.setDeltaMovement(Vec3.ZERO);
+
+
+
     }
 
     @Override
@@ -94,5 +123,15 @@ public class BoneEntity
         item.setItemMeta(meta);
 
         setItemStack(CraftItemStack.asNMSCopy(item));
+    }
+
+    private static net.minecraft.world.item.ItemStack getItemBase() {
+        ItemStack item = new ItemStack(Material.LEATHER_HORSE_ARMOR);
+        LeatherArmorMeta meta = (LeatherArmorMeta) item.getItemMeta();
+
+        meta.setColor(Color.fromRGB(255, 255, 255));
+        item.setItemMeta(meta);
+
+        return CraftItemStack.asNMSCopy(item);
     }
 }
