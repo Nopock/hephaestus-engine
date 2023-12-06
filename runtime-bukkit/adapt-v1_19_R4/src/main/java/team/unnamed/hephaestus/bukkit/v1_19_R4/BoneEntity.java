@@ -42,6 +42,8 @@ import org.bukkit.entity.ItemDisplay;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
+import org.joml.Quaternionf;
+import org.joml.Vector3f;
 import team.unnamed.creative.base.Vector3Float;
 import team.unnamed.hephaestus.Bone;
 import team.unnamed.hephaestus.bukkit.BoneView;
@@ -57,11 +59,20 @@ public class BoneEntity
 
     protected final float modelScale;
 
-    BoneEntity(MinecraftModelEntity view, Bone bone, Level world, float modelScale) {
+    BoneEntity(
+            MinecraftModelEntity view,
+            Bone bone,
+            Level world,
+            Vector3Float initialPosition,
+            Quaternion initialRotation,
+            float modelScale
+    ) {
         super(EntityType.ITEM_DISPLAY, world);
         this.view = view;
         this.bone = bone;
         this.modelScale = modelScale;
+
+        initialize(initialPosition, initialRotation);
     }
 
     protected void initialize(Vector3Float initialPosition, Quaternion initialRotation) {
@@ -89,9 +100,14 @@ public class BoneEntity
     @Override
     public void update(Vector3Float position, Quaternion rotation, Vector3Float scale) {
         super.setDeltaMovement(Vec3.ZERO);
-
-
-
+        super.setTransformation(
+                new Transformation(
+                        new Vector3f(position.x(), position.y(), position.z()).mul(modelScale * bone.scale()),
+                        null,
+                        new Vector3f(scale.x(), scale.y(), scale.z()),
+                        new Quaternionf(rotation.x(), rotation.y(), rotation.z(), rotation.w())
+                )
+        );
     }
 
     @Override

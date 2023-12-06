@@ -16,6 +16,7 @@ tasks {
 
 dependencies {
     paperDevBundle("1.19.4-R0.1-SNAPSHOT")
+    api(project(":hephaestus-api"))
 
     implementation(project(":hephaestus-runtime-bukkit-api"))
     implementation("net.kyori:adventure-platform-bukkit:4.0.1")

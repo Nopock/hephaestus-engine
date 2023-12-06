@@ -21,21 +21,9 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package team.unnamed.hephaestus.bukkit;
+package team.unnamed.hephaestus.bukkit.v1_19_R4;
 
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.Mob;
-import org.bukkit.entity.Player;
-import team.unnamed.hephaestus.Model;
-import team.unnamed.hephaestus.view.BaseModelView;
+import team.unnamed.hephaestus.bukkit.ModelEntity;
 
-/**
- * Represents a concrete {@link Model} instance
- * entity in a world
- *
- * @since 1.0.0
- */
-public interface ModelEntity
-        extends Entity, BaseModelView<Player> {
-
+public class ModelEntityImpl implements ModelEntity  {
 }
