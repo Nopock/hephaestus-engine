@@ -40,6 +40,7 @@ import team.unnamed.creative.base.Vector3Float;
 import team.unnamed.hephaestus.Bone;
 import team.unnamed.hephaestus.Model;
 import team.unnamed.hephaestus.animation.AnimationController;
+import team.unnamed.hephaestus.animation.controller.AnimationController;
 import team.unnamed.hephaestus.util.Vectors;
 
 import java.util.Collections;

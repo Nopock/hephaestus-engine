@@ -21,26 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package team.unnamed.hephaestus.bukkit.v1_18_R2;
+package team.unnamed.hephaestus.bukkit.v1_19_R4;
 
-import org.bukkit.craftbukkit.v1_18_R2.CraftServer;
-import org.bukkit.craftbukkit.v1_18_R2.entity.CraftMob;
+import net.minecraft.world.entity.Mob;
+import org.bukkit.block.Block;
+import org.bukkit.craftbukkit.v1_19_R3.CraftServer;
+import org.bukkit.craftbukkit.v1_19_R3.entity.CraftMob;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import team.unnamed.hephaestus.Model;
+import team.unnamed.hephaestus.animation.controller.AnimationController;
 import team.unnamed.hephaestus.bukkit.ModelEntity;
 import team.unnamed.hephaestus.view.BaseBoneView;
 
 import java.util.Collection;
 
-/**
- * The implementation of the Bukkit-based {@link ModelEntity}
- * interface, and adapter for {@code net.minecraft.server}-based
- * {@link MinecraftModelEntity} class
- */
-public class CraftModelEntity
-        extends CraftMob
-        implements ModelEntity {
+public class CraftModelEntity extends CraftMob implements ModelEntity {
 
     public CraftModelEntity(CraftServer server, MinecraftModelEntity entity) {
         super(server, entity);
@@ -52,14 +50,28 @@ public class CraftModelEntity
     }
 
     @Override
-    public EntityType getType() {
-        // TODO: Create a custom EntityType when it stops being an enum
+    public Model model() {
+        return getHandle().getBukkitEntity().model();
+    }
+
+    @Override
+    public @NotNull EntityType getType() {
         return EntityType.UNKNOWN;
     }
 
     @Override
-    public Model model() {
-        return getHandle().model();
+    public Collection<Player> viewers() {
+        return null;
+    }
+
+    @Override
+    public boolean addViewer(Player player) {
+        return false;
+    }
+
+    @Override
+    public boolean removeViewer(Player player) {
+        return false;
     }
 
     @Override
@@ -74,16 +86,6 @@ public class CraftModelEntity
 
     @Override
     public AnimationController animationController() {
-        return getHandle().animationController();
+        return getHandle().getAnimationController();
     }
-
-    @Override
-    public void tickAnimations() {
-    }
-
-    @Override
-    public String toString() {
-        return "CraftModelEntity { model='" + model().name() + "' }";
-    }
-
 }

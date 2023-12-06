@@ -33,7 +33,7 @@ import team.unnamed.creative.base.Vector2Float;
 import team.unnamed.creative.base.Vector3Float;
 import team.unnamed.hephaestus.Bone;
 import team.unnamed.hephaestus.Model;
-import team.unnamed.hephaestus.animation.AnimationController;
+import team.unnamed.hephaestus.animation.controller.AnimationController;
 import team.unnamed.hephaestus.util.Vectors;
 
 import java.util.Collections;
@@ -42,7 +42,6 @@ import java.util.Objects;
 @MethodsReturnNonnullByDefault
 public class MinecraftModelEntity extends Mob {
 
-    private static final Access.FieldReflect<EntityDimensions> DIMENSIONS_FIELD = Access.findFieldByType(Entity.class, EntityDimensions.class);
 
     private final Model model;
     private final ImmutableMap<String, BoneEntity> bones;
@@ -60,9 +59,6 @@ public class MinecraftModelEntity extends Mob {
 
         Vector2Float bb = model.boundingBox();
         this.modelDimensions = EntityDimensions.scalable(bb.x(), bb.y());
-
-        // set our model dimensions
-        DIMENSIONS_FIELD.set(this, modelDimensions);
 
         // update bounding box
         setPos(0.0D, 0.0D, 0.0D);

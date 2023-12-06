@@ -27,13 +27,12 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.CreatureSpawnEvent;
 import team.unnamed.hephaestus.Model;
 import team.unnamed.hephaestus.bukkit.BukkitModelEngine;
 import team.unnamed.hephaestus.bukkit.ModelEntity;
 import team.unnamed.hephaestus.view.track.ModelViewTracker;
 
-public class V1_19_R4ModelEngine implements BukkitModelEngine {
+public class BukkitV1_19_R4ModelEngine implements BukkitModelEngine {
 
     public ModelEntity createView(EntityType entityType, Model model, World world, Location position, float scale) {
         ModelEntity modelEntity = new ModelEntity(entityType, model, scale);

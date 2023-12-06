@@ -23,7 +23,5 @@
  */
 package team.unnamed.hephaestus.bukkit.v1_19_R4;
 
-import team.unnamed.hephaestus.bukkit.ModelEntity;
-
-public class ModelEntityImpl implements ModelEntity  {
+public class ModelServerEntity {
 }
